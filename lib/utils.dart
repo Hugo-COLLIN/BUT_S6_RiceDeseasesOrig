@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,18 +20,19 @@ Future<File> cropImage(XFile pickedFile) async {
       // CropAspectRatioPreset.ratio16x9
     ],
     // ignore: prefer_const_constructors
-    androidUiSettings: AndroidUiSettings(
-        toolbarTitle: 'Cropper',
-        toolbarColor: Colors.blue, //Theme.of(context).primaryColor,
-        toolbarWidgetColor: Colors.white,
-        initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false),
-    iosUiSettings: const IOSUiSettings(
-      minimumAspectRatio: 1.0,
+    iosUiSettings: IOSUiSettings(
+        minimumAspectRatio: 1.0,
+      ),
+    androidUiSettings: const AndroidUiSettings(
+      toolbarTitle: 'Cropper',
+      toolbarColor: Colors.blue, //Theme.of(context).primaryColor,
+      toolbarWidgetColor: Colors.white,
+      initAspectRatio: CropAspectRatioPreset.original,
+      lockAspectRatio: false
     ),
   );
 
-  return croppedFile!;
+  return File(croppedFile!.path);
 }
 
 Future<File> getImage(String url) async {
@@ -61,7 +61,7 @@ Future<File> getImage(String url) async {
 // Reading bytes from a network image
 Future<Uint8List> readNetworkImage(String imageUrl) async {
   final ByteData data =
-      await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl);
+  await NetworkAssetBundle(Uri.parse(imageUrl)).load(imageUrl);
   final Uint8List bytes = data.buffer.asUint8List();
   return bytes;
 }

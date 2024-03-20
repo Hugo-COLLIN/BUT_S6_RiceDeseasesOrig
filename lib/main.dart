@@ -127,6 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 File croppedFile = await cropImage(pickedFile);
                 final imgFile = File(croppedFile.path);
+                // File imgFile = File(pickedFile.path);
+                // or image_cropper 5.0.1 check la page et modif manifest.xml android
 
                 setState(() {
                   imageURI = imgFile;
